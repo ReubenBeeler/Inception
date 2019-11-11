@@ -11,19 +11,9 @@ public class DrawBoards extends JPanel implements ActionListener {
 	
 	Font playerFont = new Font("Georgia", Font.BOLD, 50);
 	String player = "X";
-	int turn = 0;
-	
-	GameBoards gameBoard = new GameBoards();
 	
 	public static void main(String[] args) {
 		
-	}
-	
-	void update() {
-		turn += 1;
-		if (turn % 2 == 0) {player = "X";}
-		else {player = "O";}
-		repaint();
 	}
 	
 	@Override
