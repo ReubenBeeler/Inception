@@ -10,10 +10,16 @@ import javax.swing.JPanel;
 public class DrawBoards extends JPanel implements ActionListener {
 	
 	Font playerFont = new Font("Georgia", Font.BOLD, 50);
+	Font letterFont = new Font("Georgia", Font.PLAIN, 20);
 	String player = "X";
+	String[][] boards;
 	
 	public static void main(String[] args) {
 		
+	}
+	
+	DrawBoards (String[][] boards) {
+		this.boards = boards;
 	}
 	
 	@Override
@@ -80,5 +86,11 @@ public class DrawBoards extends JPanel implements ActionListener {
 		
 		g.setFont(playerFont);
 		g.drawString("Player " + player, 342, 920);
+		
+		g.setFont(letterFont);
+		for (int x = 0; x < 9; x++) {
+			for (int y = 0; y < 9; y++)
+			g.drawString(player, (80 * x) + (30 * (x - (x % 3))) + 30, (80 * y) + (30 * (y - (y % 3))) + 43);
+		}
 	}
 }

@@ -30,7 +30,7 @@ public class Inception implements MouseListener {
 		frame.setSize(SIZE);
 		gameBoard.drawingBoard.addMouseListener(this);
 		frame.add(gameBoard.drawingBoard);
-		gameBoard.makeLabels();
+		//gameBoard.makeLabels();
 		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
@@ -38,27 +38,7 @@ public class Inception implements MouseListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		if (e.getX() > 30 && e.getX() <= 270) {
-			System.out.println("Left Boards");
-			
-			if (e.getX() > 35 && e.getX() <= 105) {System.out.println("Left-Left Quadrants");}
-			else if (e.getX() > 115 && e.getX() <= 185) {System.out.println("Left-Middle Quadrants");}
-			else if (e.getX() > 195 && e.getX() <= 265) {System.out.println("Left-Right Quadrants");}
-		}
-		else if (e.getX() > 330 && e.getX() <= 570) {
-			System.out.println("Middle Boards");
-			
-			if (e.getX() > 335 && e.getX() <= 405) {System.out.println("Middle-Left Quadrants");}
-			else if (e.getX() > 415 && e.getX() <= 485) {System.out.println("Middle-Middle Quadrants");}
-			else if (e.getX() > 495 && e.getX() <= 565) {System.out.println("Middle-Right Quadrants");}
-		}
-		else if (e.getX() > 630 && e.getX() <= 870) {
-			System.out.println("Right Boards");
-			
-			if (e.getX() > 635 && e.getX() <= 705) {System.out.println("Right-Left Quadrants");}
-			else if (e.getX() > 715 && e.getX() <= 785) {System.out.println("Right-Middle Quadrants");}
-			else if (e.getX() > 795 && e.getX() <= 865) {System.out.println("Right-Right Quadrants");}
-		}
+		
 	}
 
 	@Override
