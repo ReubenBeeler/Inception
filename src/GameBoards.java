@@ -13,6 +13,11 @@ public class GameBoards implements MouseListener{
 	boolean end = false;
 	int turn = 0;
 	
+	int startX = 0;
+	int endX = 9;
+	int startY = 0;
+	int endY = 9;
+	
 	DrawBoards drawingBoard = new DrawBoards(boards);
 	
 	int xBox;
@@ -24,14 +29,18 @@ public class GameBoards implements MouseListener{
 	
 	void update() {
 		turn += 1;
-		if (turn % 2 == 0) {drawingBoard.player = "X";}
-		else {drawingBoard.player = "O";}
+		drawingBoard.player = drawingBoard.playerList[turn % 2];
+		drawingBoard.playerColor = drawingBoard.colorList[turn % 2];
 		drawingBoard.repaint();
 	}
 	
 	void set(int x, int y) {
 		if (boards[(x % 3) + (3 * (y % 3))][(y % 3) + (3 * (x % 3))].equals("")) {
 			boards[(x % 3) + (3 * (y % 3))][(y % 3) + (3 * (x % 3))] = drawingBoard.player;
+			startX = (x % 3) + (3 * (y % 3));
+			startY = (y % 3) + (3 * (x % 3));
+			endX = startX++;
+			endY = startY++;
 		} else {
 			JOptionPane.showMessageDialog(drawingBoard, "Invalid Location: Specified Quadrant is Occupied");
 		}
@@ -40,13 +49,18 @@ public class GameBoards implements MouseListener{
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		xBox = -1;
-		yBox = -1;
-		for (int i = 0; i < 9; i++) {
+		for (int i = startX; i < endX; i++) {
 			if (e.getX() > 80 * i + 35 && e.getX() <= 80 * i + 105) {xBox = i;}
+		}
+
+		yBox = -1;
+		for (int i = startY; i < endY; i++) {
 			if (e.getY() > 80 * i + 35 && e.getY() <= 80 * i + 105) {yBox = i;}
 		}
 		
-		if (xBox != -1 && yBox != -1) {set(xBox, yBox);}
+		if (xBox != -1 && yBox != -1) {
+			set(xBox, yBox);
+		}
 		
 		update();
 		
