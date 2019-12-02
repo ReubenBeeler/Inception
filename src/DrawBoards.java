@@ -2,34 +2,31 @@
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.JPanel;
 
-public class DrawBoards extends JPanel implements ActionListener {
+public class DrawBoards extends JPanel implements MouseListener {
 	
 	Font playerFont = new Font("Georgia", Font.BOLD, 50);
 	Font letterFont = new Font("Georgia", Font.PLAIN, 32);
-
+	
 	String player = "X";
 	String[] playerList = new String[] {"X", "O"};
 	
-	Color playerColor = Color.BLUE;
 	Color[] colorList = new Color[] {Color.BLUE, Color.RED};
+	
 	String[][] boards;
+	Color[][] colors;
 	
 	public static void main(String[] args) {
 		
 	}
 	
-	DrawBoards (String[][] boards) {
+	DrawBoards (String[][] boards, Color[][] colors) {
 		this.boards = boards;
-	}
-	
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		
+		this.colors = colors;
 	}
 	
 	@Override
@@ -65,24 +62,38 @@ public class DrawBoards extends JPanel implements ActionListener {
 		
 		g.setFont(letterFont);
 		
-		//g.setColor(Color.RED);
-		//for(...) {
-		//	for (...) {
-		//		if (letter.equals("O") @ location) {g.drawString("O", ...);/*<-- RED*/}
-		//		}
-		//	}
-		
-		//g.setColor(Color.BLUE);
-		//for(...) {
-		//	for (...) {
-		//		if (letter.equals("X") @ location) {g.drawString("X", ...);/*<-- BLUE*/}
-		//		}
-		//	}
-
-		for (int x = 0; x < 9; x++) {
+		g.setColor(Color.RED);
+		for(int x = 0; x < 9; x++) {
 			for (int y = 0; y < 9; y++) {
-				g.drawString(player, (80 * x) + (20 * (x - (x % 3))) + 30 + 29, (80 * y) + (20 * (y - (y % 3))) + 53 + 24);
+				g.setColor(this.colors[(x / 3) + (3 * (y / 3))][(x % 3) + (3 * (y % 3))]);
+				g.drawString(this.boards[(x / 3) + (3 * (y / 3))][(x % 3) + (3 * (y % 3))], (80 * x) + (20 * (x - (x % 3))) + 30 + 29, (80 * y) + (20 * (y - (y % 3))) + 53 + 24);
+		
 			}
 		}
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		System.out.println("Mouse Clicked");
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		System.out.println("Mouse Pressed");
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		System.out.println("Mouse Released");
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		System.out.println("Mouse Entered");
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		System.out.println("Mouse Exited");
 	}
 }
