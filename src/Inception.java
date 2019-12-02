@@ -24,6 +24,7 @@ public class Inception implements MouseListener {
 	void setFrame() {
 		frame.setSize(SIZE);
 		frame.add(gameBoard.drawingBoard);
+		//gameBoard.addMouseListener( something );
 		//gameBoard.makeLabels();
 		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
