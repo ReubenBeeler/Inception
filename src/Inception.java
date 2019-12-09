@@ -24,7 +24,7 @@ public class Inception implements MouseListener {
 	void setFrame() {
 		frame.setSize(SIZE);
 		frame.add(gameBoard.drawingBoard);
-		//gameBoard.addMouseListener( something );
+		frame.addMouseListener(this);
 		//gameBoard.makeLabels();
 		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -33,27 +33,27 @@ public class Inception implements MouseListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		System.out.println("Mouse Clicked");
+		gameBoard.mouseClicked(e);
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		System.out.println("Mouse Pressed");
+		
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		System.out.println("Mouse Released");
+		
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		System.out.println("Mouse Entered");
+		
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		System.out.println("Mouse Exited");
+		
 	}
 
 }

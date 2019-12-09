@@ -1,13 +1,12 @@
 import java.awt.Color;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 import javax.swing.JOptionPane;
 
-public class GameBoards implements MouseListener{
+public class GameBoards {
 
-	String[][] boards = new String[9][9];
-	Color[][] colors = new Color[9][9];
+	static String[][] boards = new String[9][9];
+	static Color[][] colors = new Color[9][9];
 	
 	boolean end = false;
 	int turn = 0;
@@ -15,7 +14,7 @@ public class GameBoards implements MouseListener{
 	int startX = 0; int endX = 9;
 	int startY = 0; int endY = 9;
 	
-	DrawBoards drawingBoard = new DrawBoards(boards, colors);
+	static DrawBoards drawingBoard = new DrawBoards(boards, colors);
 	
 	int xBox;
 	int yBox;
@@ -29,6 +28,7 @@ public class GameBoards implements MouseListener{
 		drawingBoard.boards = boards;
 		drawingBoard.colors = colors;
 		drawingBoard.player = drawingBoard.playerList[turn % 2];
+		drawingBoard.color = drawingBoard.colorList[turn % 2];
 		drawingBoard.repaint();
 	}
 	
@@ -38,22 +38,21 @@ public class GameBoards implements MouseListener{
 			colors[(x / 3) + (3 * (y / 3))][(x % 3) + (3 * (y % 3))] = drawingBoard.colorList[turn % 2];
 			startX = 3 * (x % 3); endX = startX + 3;
 			startY = 3 * (y % 3); endY = startY + 3;
+			drawingBoard.setBorders(x % 3, y % 3);
 		} else {
 			JOptionPane.showMessageDialog(drawingBoard, "Invalid Location: Specified Quadrant is Occupied");
 		}
 	}
 
-	@Override
 	public void mouseClicked(MouseEvent e) {
-		System.out.println("Mouse Clicked");
 		xBox = -1;
 		for (int i = startX; i < endX; i++) {
-			if (e.getX() > 80 * i + 35 && e.getX() <= 80 * i + 105) {xBox = i;}
+			if (e.getX() > (80 * i) + (60*(i/3)) + 35 && e.getX() <= (80 * i) + (60*(i/3)) + 105) {xBox = i;}
 		}
 
 		yBox = -1;
 		for (int i = startY; i < endY; i++) {
-			if (e.getY() > 80 * i + 35 && e.getY() <= 80 * i + 105) {yBox = i;}
+			if (e.getY() > (80 * i) + (60*(i/3)) + 58 && e.getY() <= (80 * i) + (60*(i/3)) + 128) {yBox = i;}
 		}
 		
 		if (xBox != -1 && yBox != -1) {
@@ -85,25 +84,5 @@ public class GameBoards implements MouseListener{
 	}
 	*/
 		
-	}
-
-	@Override
-	public void mousePressed(MouseEvent e) {
-		System.out.println("Mouse Pressed");
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent e) {
-		System.out.println("Mouse Released");
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent e) {
-		System.out.println("Mouse Entered");
-	}
-
-	@Override
-	public void mouseExited(MouseEvent e) {
-		System.out.println("Mouse Exited");
 	}
 }

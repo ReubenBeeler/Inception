@@ -2,12 +2,10 @@
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 import javax.swing.JPanel;
 
-public class DrawBoards extends JPanel implements MouseListener {
+public class DrawBoards extends JPanel {
 	
 	Font playerFont = new Font("Georgia", Font.BOLD, 50);
 	Font letterFont = new Font("Georgia", Font.PLAIN, 32);
@@ -15,10 +13,13 @@ public class DrawBoards extends JPanel implements MouseListener {
 	String player = "X";
 	String[] playerList = new String[] {"X", "O"};
 	
+	Color color = Color.BLUE;
 	Color[] colorList = new Color[] {Color.BLUE, Color.RED};
 	
 	String[][] boards;
 	Color[][] colors;
+	
+	int[][] borders = new int[][] {{-1, -1}, {-1, -1}};
 	
 	public static void main(String[] args) {
 		
@@ -29,18 +30,43 @@ public class DrawBoards extends JPanel implements MouseListener {
 		this.colors = colors;
 	}
 	
+	public void setBorders(int x, int y) {
+		for (int i = 0; i < 2; i++) {for (int j = 0; j < 2; j++) {borders[i][j] = -1;}}
+		
+		if (y <= 1) {borders[0][0] = x;}
+		if (y >= 1) {borders[0][1] = x;}
+		
+		if (x <= 1) {borders[1][0] = y;}
+		if (x >= 1) {borders[1][1] = y;}
+	}
+	
 	@Override
 	public void paintComponent(Graphics g) {
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, 900, 1000);
 		
-		g.setColor(Color.WHITE);
-
-		g.drawLine(0, 300, 900, 300);
-		g.drawLine(0, 600, 900, 600);
-		g.drawLine(300, 0, 300, 900);
-		g.drawLine(600, 0, 600, 900);
+		for (int i = 0; i < 3; i++) {
+			if (i == borders[0][0]) {g.setColor(color);}
+			else {g.setColor(Color.WHITE);}
+			g.drawLine(300 * i, 300, 300 * (i+1), 300);
+		}
+		for (int i = 0; i < 3; i++) {
+			if (i == borders[0][1]) {g.setColor(color);}
+			else {g.setColor(Color.WHITE);}
+			g.drawLine(300 * i, 600, 300 * (i+1), 600);
+		}
+		for (int i = 0; i < 3; i++) {
+			if (i == borders[1][0]) {g.setColor(color);}
+			else {g.setColor(Color.WHITE);}
+			g.drawLine(300, 300 * i, 300, 300 * (i+1));
+		}
+		for (int i = 0; i < 3; i++) {
+			if (i == borders[1][1]) {g.setColor(color);}
+			else {g.setColor(Color.WHITE);}
+			g.drawLine(600, 300 * i, 600, 300 * (i+1));
+		}
 		
+		g.setColor(Color.WHITE);
 		for (int x = 0; x < 3; x++) {
 			for (int y = 0; y < 3; y++) {
 				for (int i = 0; i < 2; i++) {
@@ -58,11 +84,11 @@ public class DrawBoards extends JPanel implements MouseListener {
 		}
 		
 		g.setFont(playerFont);
+		g.setColor(color);
 		g.drawString("Player " + player, 342, 920);
 		
 		g.setFont(letterFont);
 		
-		g.setColor(Color.RED);
 		for(int x = 0; x < 9; x++) {
 			for (int y = 0; y < 9; y++) {
 				g.setColor(this.colors[(x / 3) + (3 * (y / 3))][(x % 3) + (3 * (y % 3))]);
@@ -70,30 +96,5 @@ public class DrawBoards extends JPanel implements MouseListener {
 		
 			}
 		}
-	}
-
-	@Override
-	public void mouseClicked(MouseEvent e) {
-		System.out.println("Mouse Clicked");
-	}
-
-	@Override
-	public void mousePressed(MouseEvent e) {
-		System.out.println("Mouse Pressed");
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent e) {
-		System.out.println("Mouse Released");
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent e) {
-		System.out.println("Mouse Entered");
-	}
-
-	@Override
-	public void mouseExited(MouseEvent e) {
-		System.out.println("Mouse Exited");
 	}
 }
