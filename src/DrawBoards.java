@@ -9,6 +9,8 @@ public class DrawBoards extends JPanel {
 	
 	Font playerFont = new Font("Georgia", Font.BOLD, 50);
 	Font letterFont = new Font("Georgia", Font.PLAIN, 32);
+	Font largeFont = new Font("Georgia", Font.PLAIN, 300);
+	Font winFont = new Font("Georgia", Font.BOLD, 900);
 	
 	String player = "X";
 	String[] playerList = new String[] {"X", "O"};
@@ -17,7 +19,9 @@ public class DrawBoards extends JPanel {
 	Color[] colorList = new Color[] {Color.BLUE, Color.RED};
 	
 	String[][] boards;
+	String[] outerBoards;
 	Color[][] colors;
+	Color[] outerColors;
 	
 	int[][] borders = new int[][] {{-1, -1}, {-1, -1}};
 	
@@ -25,9 +29,11 @@ public class DrawBoards extends JPanel {
 		
 	}
 	
-	DrawBoards (String[][] boards, Color[][] colors) {
+	DrawBoards (String[][] boards, String[] outerBoards, Color[][] colors, Color[] outerColors) {
 		this.boards = boards;
+		this.outerBoards = outerBoards;
 		this.colors = colors;
+		this.outerColors = outerColors;
 	}
 	
 	public void setBorders(int x, int y) {
@@ -83,18 +89,24 @@ public class DrawBoards extends JPanel {
 			}
 		}
 		
-		g.setFont(playerFont);
-		g.setColor(color);
-		g.drawString("Player " + player, 342, 920);
+		g.setFont(largeFont);
+		for (int board = 0; board < 9; board++) {
+			g.setColor(this.outerColors[board]);
+			g.drawString(this.outerBoards[board], 300 * (board % 3) + 42, 300 * (board / 3) + 254);
+		}
+		
+		// Use outline text as to not cover up smaller letters. Thanks Mike!
 		
 		g.setFont(letterFont);
-		
 		for(int x = 0; x < 9; x++) {
 			for (int y = 0; y < 9; y++) {
 				g.setColor(this.colors[(x / 3) + (3 * (y / 3))][(x % 3) + (3 * (y % 3))]);
 				g.drawString(this.boards[(x / 3) + (3 * (y / 3))][(x % 3) + (3 * (y % 3))], (80 * x) + (20 * (x - (x % 3))) + 30 + 29, (80 * y) + (20 * (y - (y % 3))) + 53 + 24);
-		
 			}
 		}
+		
+		g.setFont(playerFont);
+		g.setColor(color);
+		g.drawString("Player " + player, 342, 920);
 	}
 }
