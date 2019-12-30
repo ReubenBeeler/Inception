@@ -2,15 +2,17 @@
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 
 import javax.swing.JPanel;
 
 public class DrawBoards extends JPanel {
 	
-	Font playerFont = new Font("Georgia", Font.BOLD, 50);
 	Font letterFont = new Font("Georgia", Font.PLAIN, 32);
+	Font playerFont = new Font("Georgia", Font.BOLD, 50);
+	Font winFont = new Font("Georgia", Font.BOLD, 100);
 	Font largeFont = new Font("Georgia", Font.PLAIN, 300);
-	Font winFont = new Font("Georgia", Font.BOLD, 900);
 	
 	String player = "X";
 	String[] playerList = new String[] {"X", "O"};
@@ -24,6 +26,8 @@ public class DrawBoards extends JPanel {
 	Color[] outerColors;
 	
 	int[][] borders = new int[][] {{-1, -1}, {-1, -1}};
+	
+	boolean end = false;
 	
 	public static void main(String[] args) {
 		
@@ -39,11 +43,13 @@ public class DrawBoards extends JPanel {
 	public void setBorders(int x, int y) {
 		for (int i = 0; i < 2; i++) {for (int j = 0; j < 2; j++) {borders[i][j] = -1;}}
 		
-		if (y <= 1) {borders[0][0] = x;}
-		if (y >= 1) {borders[0][1] = x;}
-		
-		if (x <= 1) {borders[1][0] = y;}
-		if (x >= 1) {borders[1][1] = y;}
+		if (x >= 0 && y >= 0) {
+			if (y <= 1) {borders[0][0] = x;}
+			if (y >= 1) {borders[0][1] = x;}
+			
+			if (x <= 1) {borders[1][0] = y;}
+			if (x >= 1) {borders[1][1] = y;}
+		}
 	}
 	
 	@Override
@@ -89,14 +95,6 @@ public class DrawBoards extends JPanel {
 			}
 		}
 		
-		g.setFont(largeFont);
-		for (int board = 0; board < 9; board++) {
-			g.setColor(this.outerColors[board]);
-			g.drawString(this.outerBoards[board], 300 * (board % 3) + 42, 300 * (board / 3) + 254);
-		}
-		
-		// Use outline text as to not cover up smaller letters. Thanks Mike!
-		
 		g.setFont(letterFont);
 		for(int x = 0; x < 9; x++) {
 			for (int y = 0; y < 9; y++) {
@@ -105,8 +103,26 @@ public class DrawBoards extends JPanel {
 			}
 		}
 		
-		g.setFont(playerFont);
-		g.setColor(color);
-		g.drawString("Player " + player, 342, 920);
+		if (end) {
+			g.setFont(winFont); g.setColor(color);
+			g.drawString("Player " + player + " WINS!", 50, 950);
+		} else {
+			g.setFont(playerFont); g.setColor(color);
+			g.drawString("Player " + player, 342, 920);
+			
+			g.setFont(letterFont); g.setColor(Color.WHITE);
+			g.drawString("Click HERE for instructions", 0, 964);
+		}
+		
+		// Use outline text as to not cover up smaller letters
+		Graphics2D g2d = (Graphics2D) g;
+		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		
+		for (int board = 0; board < 9; board++) {
+			g2d.translate(300 * (board % 3) + 42, 300 * (board / 3) + 254);
+			g2d.setColor(this.outerColors[board]);
+			g2d.draw(largeFont.createGlyphVector(g2d.getFontRenderContext(), outerBoards[board]).getOutline());
+			g2d.translate(- (300 * (board % 3) + 42), -(300 * (board / 3) + 254));
+		}
 	}
 }

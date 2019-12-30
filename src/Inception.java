@@ -8,7 +8,7 @@ import javax.swing.JFrame;
 public class Inception implements MouseListener {
 	
 	JFrame frame = new JFrame();
-	Dimension SIZE = new Dimension(900, 1023);
+	Dimension SIZE = new Dimension(900, 988);
 	
 	static GameBoards gameBoard = new GameBoards();
 	
@@ -25,7 +25,6 @@ public class Inception implements MouseListener {
 		frame.setSize(SIZE);
 		frame.add(gameBoard.drawingBoard);
 		frame.addMouseListener(this);
-		//gameBoard.makeLabels();
 		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
