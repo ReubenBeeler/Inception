@@ -57,25 +57,37 @@ public class DrawBoards extends JPanel {
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, 900, 1000);
 		
-		for (int i = 0; i < 3; i++) {
-			if (i == borders[0][0]) {g.setColor(color);}
+		boolean anywhere = true;
+		for (int i = 0; i < 2; i++) {for (int j = 0; j < 2; j++) {if (borders[i][j] != -1) {anywhere = false;}}}
+		
+		if (anywhere || end) {
+			if (anywhere) {g.setColor(color);}
 			else {g.setColor(Color.WHITE);}
-			g.drawLine(300 * i, 300, 300 * (i+1), 300);
-		}
-		for (int i = 0; i < 3; i++) {
-			if (i == borders[0][1]) {g.setColor(color);}
-			else {g.setColor(Color.WHITE);}
-			g.drawLine(300 * i, 600, 300 * (i+1), 600);
-		}
-		for (int i = 0; i < 3; i++) {
-			if (i == borders[1][0]) {g.setColor(color);}
-			else {g.setColor(Color.WHITE);}
-			g.drawLine(300, 300 * i, 300, 300 * (i+1));
-		}
-		for (int i = 0; i < 3; i++) {
-			if (i == borders[1][1]) {g.setColor(color);}
-			else {g.setColor(Color.WHITE);}
-			g.drawLine(600, 300 * i, 600, 300 * (i+1));
+			for (int i = 1; i < 3; i++) {
+				g.drawLine(300 * i, 0, 300 * i, 900);
+				g.drawLine(0, 300 * i, 900, 300 * i);
+			}
+		} else {
+			for (int i = 0; i < 3; i++) {
+				if (i == borders[0][0]) {g.setColor(color);}
+				else {g.setColor(Color.WHITE);}
+				g.drawLine(300 * i, 300, 300 * (i+1), 300);
+			}
+			for (int i = 0; i < 3; i++) {
+				if (i == borders[0][1]) {g.setColor(color);}
+				else {g.setColor(Color.WHITE);}
+				g.drawLine(300 * i, 600, 300 * (i+1), 600);
+			}
+			for (int i = 0; i < 3; i++) {
+				if (i == borders[1][0]) {g.setColor(color);}
+				else {g.setColor(Color.WHITE);}
+				g.drawLine(300, 300 * i, 300, 300 * (i+1));
+			}
+			for (int i = 0; i < 3; i++) {
+				if (i == borders[1][1]) {g.setColor(color);}
+				else {g.setColor(Color.WHITE);}
+				g.drawLine(600, 300 * i, 600, 300 * (i+1));
+			}
 		}
 		
 		g.setColor(Color.WHITE);

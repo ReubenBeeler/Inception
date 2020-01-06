@@ -33,8 +33,8 @@ public class GameBoards {
 		drawingBoard.colors = colors;
 		drawingBoard.outerColors = outerColors;
 		if (checkOuter()) {
-			drawingBoard.repaint();
 			drawingBoard.end = true;
+			drawingBoard.repaint();
 		} else {
 			drawingBoard.player = drawingBoard.playerList[turn % 2];
 			drawingBoard.color = drawingBoard.colorList[turn % 2];
@@ -43,12 +43,30 @@ public class GameBoards {
 	}
 	
 	String[] checkInner() {
-		for (int combos = 0; combos < 8; combos++) {
-			int row = 0;
-			for (int i = 0; i < 3; i++) {if (boards[(xBox / 3) + (3 * (yBox / 3))][winConditions[combos][i]].equals(drawingBoard.player)) {row++;}}
-			if (row == 3) {
-				outerBoards[(xBox / 3) + (3 * (yBox / 3))] = drawingBoard.player;
-				outerColors[(xBox / 3) + (3 * (yBox / 3))] = drawingBoard.color;
+		if (outerBoards[(xBox / 3) + (3 * (yBox / 3))] == "") {
+			boolean full = true;
+			int countX = 0;
+			for (int i = 0; i < boards[(xBox / 3) + (3 * (yBox / 3))].length; i++) {
+				if (boards[(xBox / 3) + (3 * (yBox / 3))][i].equals("X")) {countX++;} else
+				if (boards[(xBox / 3) + (3 * (yBox / 3))][i].equals("")) {full = false;}
+			}
+			
+			if (full) {
+				if (countX > 4) {
+					outerBoards[(xBox / 3) + (3 * (yBox / 3))] = "X";
+					outerColors[(xBox / 3) + (3 * (yBox / 3))] = Color.BLUE;
+				} else {
+					outerBoards[(xBox / 3) + (3 * (yBox / 3))] = "O";
+					outerColors[(xBox / 3) + (3 * (yBox / 3))] = Color.RED;} 
+			} else {
+				for (int combos = 0; combos < 8; combos++) {
+					int row = 0;
+					for (int i = 0; i < 3; i++) {if (boards[(xBox / 3) + (3 * (yBox / 3))][winConditions[combos][i]].equals(drawingBoard.player)) {row++;}}
+					if (row == 3) {
+						outerBoards[(xBox / 3) + (3 * (yBox / 3))] = drawingBoard.player;
+						outerColors[(xBox / 3) + (3 * (yBox / 3))] = drawingBoard.color;
+					}
+				}
 			}
 		} return outerBoards;
 	}
@@ -59,10 +77,20 @@ public class GameBoards {
 			int row = 0;
 			for (int i = 0; i < 3; i++) {if (outerBoards[winConditions[combos][i]].equals(drawingBoard.player)) {row++;}}
 			if (row == 3) {bool = true;}
-		} return bool;
-		/*
-		 * Check for Cat's Game
-		 */
+		}
+		
+		boolean full = true;
+		int countX = 0;
+		for (int i = 0; i < outerBoards.length; i++) {
+			if (outerBoards[i].equals("X")) {countX++;} else
+			if (outerBoards[i].equals("")) {full = false;}
+		}
+		
+		if (full) {
+			if (countX > 4) {drawingBoard.player = "X";} 
+			else {drawingBoard.player = "O";}
+			bool = true;
+		}	return bool;
 	}
 	
 	boolean set(int x, int y) {
@@ -104,7 +132,7 @@ public class GameBoards {
 			}
 			
 			if (75 < e.getX() && e.getX() < 175 && e.getY() >= 960) {
-				JOptionPane.showMessageDialog(drawingBoard,  "This is a 2-player game. The classic tic-tac-toe board has gone to the next level. Player 'X' is blue and goes first; Player 'O' is red.\nClick on the square where you want to put a copy of your letter (X or O). The next turn, your opponent will have to play in the tic-tac-toe board corresponding to the smaller square that you chose. This region will be highlighted in your color.");
+				JOptionPane.showMessageDialog(drawingBoard,  "This is a 2-player game. The classic tic-tac-toe board has gone to the next level.\nPlayer 'X' is blue and goes first; Player 'O' is red.\nClick on the square where you want to put a copy of your letter (X or O).\nThe next turn, your opponent will have to play in the tic-tac-toe board corresponding to the smaller square that you chose.\nThis region will be highlighted in your color.\n\nThere is one large tic-tac-toe board which contains 9 smaller boards. You win the game by controlling the larger board.\nThere are two ways to gain control of any board (large or small):\n\t1. You are the first player to make a 3-in-a-row ...or...\n\t2.There is a Cat's Game and you control the majority of the squares in that board.\nOnce a board is won by a player, ownership cannot switch to the other player.\n\n*Lastly, if the location of your opponent's previous move requires you to play in a board that is completely full, you may continue in any open tile in the game.\n\nPlay On!");
 			}
 		}
 	}
